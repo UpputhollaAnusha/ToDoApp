@@ -1,0 +1,27 @@
+{% extends "registration/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}         
+<style>
+h2{
+	padding: 20px;
+	font-family: cursive;
+	font-weight: bold;
+	color: purple;
+}
+form{
+	padding: 20px;
+}
+</style>
+<h2>Add Item Form</h2>
+<br>
+<form action="" method="POST">
+	{% if form.errors.non_field_errors %}
+	{{ form.errors.non_field_errors }}
+	{% endif %}
+	{% csrf_token %}
+	{{ form_form|crispy }}
+	{{ form.as_p }}
+	<input class="btn btn-sm btn-success" type="submit" value="Add Todo Item">
+	
+</form> 
+{% endblock %}

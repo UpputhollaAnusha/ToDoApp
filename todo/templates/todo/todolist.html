@@ -1,0 +1,69 @@
+{% extends "registration/base.html" %}
+{% block content %}
+<head>
+	<meta charset="utf-8">
+	<title>ToDo</title>
+	<style>
+		a{
+			margin: 20px;
+		}
+		h1{
+			text-align: center;
+			color: purple;
+			font-family: cursive;
+
+		}
+		nav{
+			font-weight: bolder;
+			font-size: large;
+		}
+		nav.a{
+			color: green;
+		}
+		
+	</style>
+</head>
+<body>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a style="color:brown;" class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      {% if user.is_authenticated %}
+      
+      <li class="nav-item">
+        <a style="color:brown;" class="nav-link" href="/logout">Logout</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" style="color:brown;">Welcome, {{user.username}}</a>
+      </li>
+
+      {% else %}
+
+      <li class="nav-item">
+        <a style="color:brown;" class="nav-link" href="/{% url 'login' %}">Login</a>
+      </li>
+
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<h1>My To Do List</h1>
+{% for i in all_items %} 
+<ul>
+	<li>Work:{{i.work}}<br>
+	{% if i.DeadLine is not None %}DeadLine:{{i.DeadLine}}<br>{% endif %}
+	{% if i.Description is not None %}Description:{{i.Description}}<br>{% endif %}<br>
+	<form style="display: inline;" action="/delete/{{i.id}}" method = "post">
+		{% csrf_token %}
+		<input class="btn btn-sm btn-success" type="submit" value="Delete">
+	</form>
+	</li>
+</ul>
+{% endfor %}
+<a href="{% url 'Add'%}"><button class="btn btn-sm btn-info">Want to add new work?</button></a>
+</body>
+{% endblock %}
